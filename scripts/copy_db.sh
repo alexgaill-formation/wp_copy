@@ -13,4 +13,8 @@ read -p "${GREEN}Entrez le nom de l'utilisateur : ${RESET}" db_user
 read -p "${GREEN}Entrez le mot de passe : ${RESET}" db_password
 read -p "${GREEN}Entrez le hostname : ${RESET}" db_host
 
-/Applications/MAMP/Library/bin/mysqldump --no-tablespaces --host=$db_host --user=$db_user --password=$db_password $db_nom > $parent_dir/Backup/$db_nom.sql
+# Laisse le choix à l'utilisateur de choisir son chemin, si c'est vide le chemin pris est celui par défaut.
+read -p "${GREEN}Entrez le chemin de votre BDD (laissez vide pour utiliser le répertoire de sauvegarde actuel) : ${RESET}" db_path
+db_path=${db_path:-$parent_dir/Backup}
+
+/Applications/MAMP/Library/bin/mysqldump --no-tablespaces --host=$db_host --user=$db_user --password=$db_password $db_nom > $db_path/$db_nom.sql
