@@ -7,9 +7,11 @@ function copy_db()
     GREEN=$(tput setaf 2)
     RESET=$(tput sgr0)
 
+    # Chemin par défaut du répertoire
     backup=$PWD
     parent_dir=$(dirname "$backup")
 
+    # Ajouts des prompts nécessaires pour la récupération de la BDD
     read -p "${GREEN}Entrez le nom de votre BDD : ${RESET}" db_nom
     read -p "${GREEN}Entrez le nom de l'utilisateur : ${RESET}" db_user
     read -p "${GREEN}Entrez le mot de passe : ${RESET}" db_password
@@ -20,5 +22,14 @@ function copy_db()
     db_path=${db_path:-$parent_dir/Backup}
 
     /Applications/MAMP/Library/bin/mysqldump --no-tablespaces --host=$db_host --user=$db_user --password=$db_password $db_nom > $db_path/$db_nom.sql
+
+    # Message de réussite ou d'echec
+    if [[ $? -eq 0 ]]; then
+        echo "$?"
+        echo "La sauvegarde a bien été exécutée ! :D"
+    else 
+        echo "$?"  
+        echo "La sauvegarde a échouée ! :'("
+    fi      
 }
 copy_db
