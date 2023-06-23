@@ -1,6 +1,9 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
 
+. ./scripts/copy_project.sh;
+. ./scripts/copy_db.sh;
+
 # Associer fichier qui gère la copie du projet wordpress
     # Prompt pour path du projet à copier
     # Prompt pour path du dossier de destination
