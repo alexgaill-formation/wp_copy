@@ -3,6 +3,7 @@
 
 . ./scripts/copy_project.sh;
 . ./scripts/copy_db.sh;
+. ./scripts/copy_variable.sh;
 
 # Associer fichier qui gère la copie du projet wordpress
     # Prompt pour path du projet à copier
