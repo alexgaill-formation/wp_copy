@@ -1,18 +1,14 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
+source ./copy_variable.sh;
 
 function copy_db()
 {
-    # Définir la couleur du texte en vert GREEN et remettre en couleur par défaut RESET
-    GREEN=$(tput setaf 2)
-    RED=$(tput setaf 1)
-    RESET=$(tput sgr0)
-
     # Chemin par défaut du répertoire
     backup=$PWD
     parent_dir=$(dirname "$backup")
 
-    # Ajouts des prompts nécessaires pour la récupération de la BDD
+    #Ajouts des prompts nécessaires pour la récupération de la BDD
     echo "${GREEN}Entrez le nom de votre BDD : ${RESET}";
     read -p "> " db_nom
     echo "${GREEN}Entrez le nom de l'utilisateur : ${RESET}";
@@ -27,9 +23,13 @@ function copy_db()
     read -p "> " db_path
     db_path=${db_path:-$parent_dir/Backup}
 
-    /Applications/MAMP/Library/bin/mysqldump --no-tablespaces --host=$db_host --user=$db_user --password=$db_password $db_nom > $db_path/$db_nom.sql
-
-    # Message de réussite ou d'echec
+    if [[ -x "/Applications/MAMP/Library/bin/mysqldump" ]]; then
+        /Applications/MAMP/Library/bin/mysqldump --no-tablespaces --host=$db_host --user=$db_user --password=$db_password $db_nom > $db_path/$db_nom.sql
+    elif [[ -x "/usr/bin/mysqldump" ]]; then
+        /usr/bin/mysqldump --no-tablespaces --host=$db_host --user=$db_user --password=$db_password $db_nom > $db_path/$db_nom.sql
+    fi
+    
+    #Message de réussite ou d'echec
     if [[ $? -eq 0 ]]; then
         echo "$?"
         echo "${GREEN}La sauvegarde a bien été exécutée ! :D"
